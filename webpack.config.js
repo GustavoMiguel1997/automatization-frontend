@@ -51,13 +51,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new Dotenv(),
-    new DefinePlugin({
-      'process.env': {
-        REACT_APP_API_KEY: process.env.REACT_APP_API_KEY,
-      },
-    }),
-    HTMLWebpackPluginConfig,
-  ],
+  plugins: [new Dotenv(), HTMLWebpackPluginConfig],
 };
