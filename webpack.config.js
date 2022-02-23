@@ -1,5 +1,6 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const { DefinePlugin } = require(webpack);
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -50,5 +51,13 @@ module.exports = {
       },
     ],
   },
-  plugins: [new Dotenv(), HTMLWebpackPluginConfig],
+  plugins: [
+    new Dotenv(),
+    new DefinePlugin({
+      'process.env': {
+        REACT_APP_API_KEY: process.env.REACT_APP_API_KEY,
+      },
+    }),
+    HTMLWebpackPluginConfig,
+  ],
 };
