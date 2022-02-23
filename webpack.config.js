@@ -3,12 +3,12 @@ const path = require('path');
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: __dirname + ' /dist',
+    path: __dirname + ' /public',
     filename: 'bundle.js',
   },
   devServer: {
     static: {
-      directory: __dirname + '/dist',
+      directory: __dirname + '/public',
     },
     hot: true,
     open: true,
