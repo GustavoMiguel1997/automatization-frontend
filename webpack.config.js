@@ -1,5 +1,11 @@
 const path = require('path');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './src/index.html',
+  filename: './index.html',
+});
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -33,6 +39,15 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)/,
         use: 'file-loader',
       },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
+      },
     ],
   },
+  plugins: [HTMLWebpackPluginConfig],
 };
