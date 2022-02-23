@@ -50,5 +50,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [HTMLWebpackPluginConfig, new Dotenv()],
+  plugins: [new Dotenv(), HTMLWebpackPluginConfig],
 };
