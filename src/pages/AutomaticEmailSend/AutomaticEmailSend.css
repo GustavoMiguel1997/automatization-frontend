@@ -1,0 +1,16 @@
+.automaticEmailSend {
+  display: flex;
+  background-repeat: no-repeat;
+  background-position: center;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  height: 50vh;
+  width: 100%;
+}
+
+.automaticEmailSend__title {
+  font-size: 50px;
+  text-transform: uppercase;
+  color: red;
+}

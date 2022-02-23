@@ -13,7 +13,7 @@
   right: -50%;
   transition: 0.5s;
   height: 70px;
-  width: 400px;
+  width: 450px;
 }
 
 .alert.-show {
@@ -43,4 +43,12 @@
 
 .alert.-error:before {
   background-color: #950e02;
+}
+
+.alert.-loading {
+  background-color: #626262;
+}
+
+.alert.-loading:before {
+  background-color: #444444;
 }

@@ -1,15 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import './Alert.css';
 
-function Alert({ message, status }) {
-  const alertClass = 'alert'.concat(` -${status}`);
+function Alert({ message, status, isOpen }) {
+  const alertClass = 'alert'.concat(` -${status}`, `${isOpen ? ' -show' : ''}`);
   const alertRef = useRef(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      alertRef.current.classList.add('-show');
-    }, 200);
-  }, []);
 
   return (
     <div className={alertClass} ref={alertRef}>

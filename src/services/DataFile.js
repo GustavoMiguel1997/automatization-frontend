@@ -12,7 +12,7 @@ async function uploadFile(file) {
 
   try {
     const response = await fetch(`${BASE_URL}/${UPLOAD_FILE}`, requestOptions);
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.error(error);
   }
@@ -24,9 +24,10 @@ async function getFiles(category) {
       `${BASE_URL}/${GET_FILES}?category=${category}`,
       { method: 'GET' }
     );
-    return response;
+    return await response;
   } catch (error) {
     console.error(error);
+    return error;
   }
 }
 

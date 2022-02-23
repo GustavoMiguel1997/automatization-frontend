@@ -9,31 +9,46 @@ import { uploadFile, getFiles } from '../../services/DataFile';
 import './DataHandler.css';
 
 function DataHandler() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertStatus, setAlertStatus] = useState('');
-  const [alertMessage, setAlertMessage] = useState('');
-
+  const [alert, setAlert] = useState({ status: '', message: '', show: false });
   const [categories, setCategories] = useState([]);
   const [categorySelected, setCategorySelected] = useState('');
   const [valueSelected, setValueSelected] = useState('');
 
   useEffect(() => {
-    if (showAlert) {
+    if (alert.show) {
       setTimeout(() => {
-        setShowAlert(false);
+        setAlert({ ...alert, show: false });
       }, 5000);
     }
-  }, [showAlert]);
+  }, [alert.show]);
 
-  async function loadCategories(currentFile) {
+  async function loadCategories(currentFile, inputValue) {
     try {
-      const { categories } = await uploadFile(currentFile);
-      setCategories(categories);
-      setCategorySelected(categories[0]);
-      setValueSelected(categories[1]);
+      const { categories, ok, message } = await uploadFile(currentFile);
+      if (ok) {
+        setFile({ currentFile, inputValue });
+        setCategories(categories);
+        setCategorySelected(categories[0]);
+        setValueSelected(categories[1]);
+      } else {
+        displayAlert('error', message);
+      }
     } catch (error) {
+      displayAlert('error', 'Ocorreu um erro');
+      console.log(error);
+    }
+  }
+
+  async function downloadFile() {
+    try {
+      const response = await getFiles();
+      const blob = await response.blob();
+      generateClientDownload(blob);
+      handleDownloadSuccess();
+    } catch (error) {
+      displayAlert('error', 'Ocorreu um erro ao gerar as planilhas');
       console.log(error);
     }
   }
@@ -49,61 +64,53 @@ function DataHandler() {
   }
 
   function handleInputChange(e) {
-    const { files } = e.target;
+    const { files, value } = e.target;
     if (files[0]) {
-      setFile(files[0]);
-      loadCategories(files[0]);
+      loadCategories(files[0], value);
     }
   }
 
-  async function downloadFile() {
-    getFiles(categorySelected)
-      .then((response) => {
-        return response.blob();
-      })
-      .then((blob) => {
-        console.log(blob);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        // the filename you want
-        a.download = 'todo-1.zip';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      });
+  function displayAlert(status, message) {
+    setAlert({ show: true, status, message });
+  }
+
+  function generateClientDownload(blob) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'planilhas.zip';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function handleDownloadSuccess() {
+    setIsLoading(false);
+    displayAlert('success', 'Planilhas geradas com sucesso');
   }
 
   async function handleClick() {
-    downloadFile();
-    setFile(null);
+    displayAlert('loading', 'Gerando planilhas');
+    setFile({});
     setCategories([]);
-    /* setIsLoading(true);
-    try {
-      const response = await getSpreadsheetZip(file);
-      downloadFile(response);
-      setAlertStatus('success');
-      setAlertMessage('Planilha gerada com sucesso!');
-    } catch (error) {
-      setAlertStatus('error');
-      setAlertMessage('Ocorreu um erro, tente novamente');
-    }
-    setShowAlert(true);
-    setIsLoading(false); */
+    setIsLoading(true);
+    downloadFile();
   }
 
-  const disableButton = !file || (file && isLoading);
-  const labelText = file ? file.name : 'Escolher arquivo';
+  const disableButton = !file.currentFile || (file.currentFile && isLoading);
+  const labelText = file.currentFile
+    ? file.currentFile.name
+    : 'Escolher arquivo';
 
   return (
     <div className="box">
       <UploadInput
         label={labelText}
-        showIcon={!file}
+        showIcon={!file.currentFile}
+        value={file.value || ''}
         onChange={handleInputChange}
       />
-
       <SelectInput
         label="Campo da categoria"
         placeholder="Escolha a categoria para gerar"
@@ -125,7 +132,13 @@ function DataHandler() {
         isDisabled={disableButton}
         onClick={handleClick}
       />
-      {showAlert && <Alert message={alertMessage} status={alertStatus} />}
+      {
+        <Alert
+          message={alert.message}
+          status={alert.status}
+          isOpen={alert.show}
+        />
+      }
     </div>
   );
 }
