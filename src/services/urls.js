@@ -1,4 +1,4 @@
-const { BASE_URL } = process.env;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const SPLIT_MERGE_DATA = 'download';
 const UPLOAD_FILE = 'upload';
