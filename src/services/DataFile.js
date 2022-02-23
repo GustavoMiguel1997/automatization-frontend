@@ -18,9 +18,12 @@ async function uploadFile(file) {
   }
 }
 
-async function getFiles() {
+async function getFiles(category) {
   try {
-    const response = await fetch(`${BASE_URL}/${GET_FILES}`, { method: 'GET' });
+    const response = await fetch(
+      `${BASE_URL}/${GET_FILES}?category=${category}`,
+      { method: 'GET' }
+    );
     return response;
   } catch (error) {
     console.error(error);

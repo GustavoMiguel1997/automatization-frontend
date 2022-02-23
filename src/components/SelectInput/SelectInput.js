@@ -1,22 +1,30 @@
 import React from 'react';
 import './SelectInput.css';
 
-function SelectInput({ value, options }) {
+function SelectInput({ label, value, disabledOption, options, onChange }) {
   const hasOptions = options.length > 0;
-  const selectInputClass = 'select'.concat(!hasOptions ? ' -disabled' : '');
+  const selectClass = 'select'.concat(!hasOptions ? ' -disabled' : '');
   return (
-    <select
-      className={selectInputClass}
-      value={value}
-      disabled={!hasOptions}
-      onChange={(e) => console.log(e.target.value)}
-    >
-      {options.map((item) => (
-        <option key={item} value={item}>
-          {item}
-        </option>
-      ))}
-    </select>
+    <div className={selectClass}>
+      {label && <label className="select__label">{label}</label>}
+      <select
+        className="select__input"
+        value={value}
+        disabled={!hasOptions}
+        onChange={onChange}
+      >
+        {options.map((item) => (
+          <option
+            key={item}
+            value={item}
+            disabled={item === disabledOption}
+            className={item === disabledOption ? ' .-disabled' : ''}
+          >
+            {item}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 

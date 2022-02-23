@@ -16,6 +16,8 @@ function DataHandler() {
   const [alertMessage, setAlertMessage] = useState('');
 
   const [categories, setCategories] = useState([]);
+  const [categorySelected, setCategorySelected] = useState('');
+  const [valueSelected, setValueSelected] = useState('');
 
   useEffect(() => {
     if (showAlert) {
@@ -29,9 +31,21 @@ function DataHandler() {
     try {
       const { categories } = await uploadFile(currentFile);
       setCategories(categories);
+      setCategorySelected(categories[0]);
+      setValueSelected(categories[1]);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleCategoryChange(e) {
+    const { value } = e.target;
+    setCategorySelected(value);
+  }
+
+  function handleValueChange(e) {
+    const { value } = e.target;
+    setValueSelected(value);
   }
 
   function handleInputChange(e) {
@@ -43,7 +57,7 @@ function DataHandler() {
   }
 
   async function downloadFile() {
-    getFiles()
+    getFiles(categorySelected)
       .then((response) => {
         return response.blob();
       })
@@ -63,6 +77,8 @@ function DataHandler() {
 
   async function handleClick() {
     downloadFile();
+    setFile(null);
+    setCategories([]);
     /* setIsLoading(true);
     try {
       const response = await getSpreadsheetZip(file);
@@ -87,7 +103,23 @@ function DataHandler() {
         showIcon={!file}
         onChange={handleInputChange}
       />
-      {<SelectInput options={categories} />}
+
+      <SelectInput
+        label="Campo da categoria"
+        placeholder="Escolha a categoria para gerar"
+        options={categories}
+        value={categorySelected}
+        onChange={handleCategoryChange}
+        disabledOption={valueSelected}
+      />
+      <SelectInput
+        label="Campo para somar valores"
+        options={categories}
+        value={valueSelected}
+        disabledOption={categorySelected}
+        onChange={handleValueChange}
+      />
+
       <Button
         label="Gerar Planilhas"
         isDisabled={disableButton}
