@@ -18,10 +18,10 @@ async function uploadFile(file) {
   }
 }
 
-async function getFiles(category) {
+async function getFiles(category, valueField) {
   try {
     const response = await fetch(
-      `${BASE_URL}/${GET_FILES}?category=${category}`,
+      `${BASE_URL}/${GET_FILES}?category=${category}&valueField=${valueField}`,
       { method: 'GET' }
     );
     return await response;

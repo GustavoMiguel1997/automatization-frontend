@@ -43,7 +43,7 @@ function DataHandler() {
 
   async function downloadFile() {
     try {
-      const response = await getFiles();
+      const response = await getFiles(categorySelected, valueSelected);
       const blob = await response.blob();
       generateClientDownload(blob);
       handleDownloadSuccess();
