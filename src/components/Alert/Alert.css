@@ -1,0 +1,46 @@
+.alert {
+  position: fixed;
+  box-sizing: border-box;
+  padding: 0px 30px;
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px #0000005e;
+  display: flex;
+  align-items: center;
+  top: 5%;
+  right: -50%;
+  transition: 0.5s;
+  height: 70px;
+  width: 400px;
+}
+
+.alert.-show {
+  top: 5%;
+  right: 5%;
+}
+
+.alert:before {
+  content: '';
+  position: absolute;
+  background-color: #04aa6d;
+  border-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  left: 0;
+  height: 100%;
+  width: 5px;
+}
+
+.alert.-success {
+  background-color: #08cc84;
+}
+
+.alert.-error {
+  background-color: #cc1808;
+}
+
+.alert.-error:before {
+  background-color: #950e02;
+}

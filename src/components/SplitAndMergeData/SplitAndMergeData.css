@@ -1,0 +1,96 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+main h1 {
+  color: #f1f1f1;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px black;
+}
+
+.box {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #00000045;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 40px;
+  box-sizing: border-box;
+  position: relative;
+  height: 400px;
+  width: 450px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+  max-width: 15.5rem;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  font-weight: 100;
+  color: #535353;
+  background-color: #f2f2f2;
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  width: 11.5rem;
+  overflow: hidden; /* make sure it hides the content that overflows */
+  white-space: nowrap; /* don't break the line */
+  text-overflow: ellipsis;
+}
+
+.inputfile + label {
+  cursor: pointer; /* "hand" cursor */
+}
+
+select {
+  color: #535353;
+  background-color: #f2f2f2;
+  border: 1px solid #d6d6d6;
+  cursor: pointer;
+  margin: 1rem 0;
+  font-size: 1rem;
+  border-radius: 3px;
+  height: 2rem;
+  width: 15.5rem;
+}
+
+.button {
+  background-color: #589e51;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #fff;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 15.5rem;
+}
+
+.button:hover {
+  background-color: #4e9447;
+}
+
+.button.-disabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.5;
+}
