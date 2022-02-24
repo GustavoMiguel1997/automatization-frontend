@@ -26,13 +26,15 @@ function DataHandler() {
 
   async function loadCategories(currentFile, inputValue) {
     try {
-      const { categories, ok, message } = await uploadFile(currentFile);
+      const { categories, defaultCategory, defaultValueField, ok, message } =
+        await uploadFile(currentFile);
       if (ok) {
         setFile({ currentFile, inputValue });
         setCategories(categories);
         setCategorySelected(categories[0]);
         setValueSelected(categories[1]);
         displayAlert('success', 'Planilha processada com sucesso!');
+        setDefaultCategoryAndValueFiel(defaultCategory, defaultValueField);
       } else {
         displayAlert('error', message);
       }
@@ -72,19 +74,17 @@ function DataHandler() {
     }
   }
 
-  function displayAlert(status, message) {
-    setAlert({ show: true, status, message });
+  function setDefaultCategoryAndValueFiel(defaultCategory, defaultValueField) {
+    if (defaultCategory) {
+      setCategorySelected(defaultCategory);
+    }
+    if (defaultValueField) {
+      setValueSelected(defaultValueField);
+    }
   }
 
-  function generateClientDownload(blob) {
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = 'planilhas.zip';
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
+  function displayAlert(status, message) {
+    setAlert({ show: true, status, message });
   }
 
   function handleDownloadSuccess() {
@@ -98,6 +98,17 @@ function DataHandler() {
     setCategories([]);
     setIsLoading(true);
     downloadFile();
+  }
+
+  function generateClientDownload(blob) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.setProperty('display', 'none');
+    a.setAttribute('href', url);
+    a.download = 'planilhas.zip';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   const disableButton = !file.currentFile || (file.currentFile && isLoading);
