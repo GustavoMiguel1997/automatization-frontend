@@ -32,6 +32,7 @@ function DataHandler() {
         setCategories(categories);
         setCategorySelected(categories[0]);
         setValueSelected(categories[1]);
+        displayAlert('success', 'Planilha processada com sucesso!');
       } else {
         displayAlert('error', message);
       }
@@ -67,6 +68,7 @@ function DataHandler() {
     const { files, value } = e.target;
     if (files[0]) {
       loadCategories(files[0], value);
+      displayAlert('loading', 'Processando Planilha...');
     }
   }
 
