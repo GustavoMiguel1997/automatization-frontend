@@ -6,7 +6,7 @@ const NAV_ITEMS = [
       {
         label: 'Gerador de planilhas',
         name: 'generateSpreadSheet',
-        path: 'gerador-de-planilhas',
+        path: '',
       },
       {
         label: 'Envio de email automatico',
